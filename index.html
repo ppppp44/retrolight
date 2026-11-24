@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="RETROLIGHT 3.0 smart RGB lighting control dashboard.">
+  <title>RETROLIGHT 3.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.5-3.3 1.8 1.8 0 0 1 1.4-3h1.4A4.5 4.5 0 0 0 22 10.2C22 6.2 17.5 3 12 3Z"/><path d="M7.5 11.5h.01M10 7.5h.01M15 7.5h.01M18 10.5h.01" stroke-linecap="round" stroke-width="2.7"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 9c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3M2 15c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4.8A1.8 1.8 0 0 1 7.8 3h8.4A1.8 1.8 0 0 1 18 4.8V21l-6-4-6 4V4.8Z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 13.5 1.1.9-1.4 2.4-1.4-.5a7.8 7.8 0 0 1-1.5.9l-.3 1.5h-2.8l-.3-1.5a7.8 7.8 0 0 1-1.5-.9l-1.4.5-1.4-2.4 1.1-.9a7.2 7.2 0 0 1 0-1.8l-1.1-.9 1.4-2.4 1.4.5a7.8 7.8 0 0 1 1.5-.9l.3-1.5h2.8l.3 1.5a7.8 7.8 0 0 1 1.5.9l1.4-.5 1.4 2.4-1.1.9c.1.6.1 1.2 0 1.8Z" transform="translate(-1 -1)"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.7 8.7 0 1 0 20.2 15.5Z"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.8a15.5 15.5 0 0 1 20 0M5.5 12.3a10 10 0 0 1 13 0M9 15.8a4.7 4.7 0 0 1 6 0"/><path d="M12 20h.01" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10m6.4-6.4a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h16M4 18h16M4 12h16"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v4m-4 0h8"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 12 7-12 7V5Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5h3v14H8zM15 5h3v14h-3z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+    <symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="m13 2-3 9h7L8 22l3-9H4l9-11Z"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview" aria-label="RETROLIGHT home">
+        <span class="brand-mark"><svg class="icon"><use href="#i-zap"/></svg></span>
+        <span class="brand-copy"><strong>RETRO<span>LIGHT</span></strong><small>SMART RGB CONTROL</small></span>
+        <span class="version-tag">3.0</span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-page="overview"><svg class="icon"><use href="#i-grid"/></svg><span>Overview</span></button>
+        <button class="nav-link" data-page="colors"><svg class="icon"><use href="#i-palette"/></svg><span>Color studio</span><span class="nav-dot"></span></button>
+        <button class="nav-link" data-page="effects"><svg class="icon"><use href="#i-waves"/></svg><span>Effects library</span></button>
+        <button class="nav-link" data-page="music"><svg class="icon"><use href="#i-music"/></svg><span>Music reactive</span><span class="new-tag">NEW</span></button>
+        <button class="nav-link" data-page="presets"><svg class="icon"><use href="#i-bookmark"/></svg><span>My presets</span></button>
+      </nav>
+      <div class="sidebar-label sidebar-label-spaced">SYSTEM</div>
+      <nav class="side-nav" aria-label="System navigation">
+        <button class="nav-link" data-page="settings"><svg class="icon"><use href="#i-settings"/></svg><span>Device settings</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-device glass-panel">
+        <div class="device-line"><span class="status-pulse"></span><span>DEVICE STATUS</span><b id="sidebarStatus">OFFLINE</b></div>
+        <div class="device-name"><span class="device-chip"><svg class="icon"><use href="#i-zap"/></svg></span><div><strong>TTGO T-Display</strong><small id="sidebarNetwork">Not connected</small></div></div>
+        <button class="button button-secondary button-small full-width" data-page="settings">Connect device <svg class="icon icon-small"><use href="#i-arrow-up-right"/></svg></button>
+      </div>
+      <div class="sidebar-footer"><span>RETROLIGHT UI</span><span>BUILT FOR YOUR SETUP</span></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="menuButton" aria-label="Open navigation"><svg class="icon"><use href="#i-menu"/></svg></button>
+          <div class="breadcrumb"><span>RETROLIGHT</span><svg class="icon icon-tiny"><use href="#i-chevron"/></svg><strong id="breadcrumbCurrent">Overview</strong></div>
+        </div>
+        <div class="topbar-actions">
+          <div class="connection-pill" id="connectionPill"><span class="status-pulse"></span><span id="connectionText">Preview mode</span></div>
+          <button class="icon-button theme-toggle" id="themeToggle" aria-label="Switch theme"><svg class="icon" id="themeIcon"><use href="#i-sun"/></svg></button>
+          <button class="button button-primary button-connect" data-page="settings"><svg class="icon icon-small"><use href="#i-wifi"/></svg><span>Connect device</span></button>
+        </div>
+      </header>
+
+      <div class="page-container">
+        <!-- OVERVIEW -->
+        <section class="page active" id="page-overview" data-title="Overview">
+          <div class="page-heading heading-split">
+            <div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR LIGHTING SPACE</div><h1>Make the room <span class="gradient-text">feel different.</span></h1><p class="page-subtitle">Your lighting, your atmosphere. All in one place.</p></div>
+            <div class="date-chip"><svg class="icon"><use href="#i-sun"/></svg><span id="localTime">READY WHEN YOU ARE</span></div>
+          </div>
+          <div class="overview-grid">
+            <article class="hero-card glass-panel">
+              <div class="hero-glow glow-one"></div><div class="hero-glow glow-two"></div>
+              <div class="hero-top"><span class="overline">CURRENT SCENE</span><span class="scene-live"><span class="status-pulse"></span> <span id="heroSceneState">PREVIEW</span></span></div>
+              <div class="hero-content"><div><div class="hero-kicker">NOW PLAYING</div><h2 id="heroEffect">Rainbow<br>flow</h2><p id="heroEffectDescription">A smooth spectrum that keeps the energy moving.</p><div class="hero-actions"><button class="button button-primary" id="heroPower"><svg class="icon icon-small"><use href="#i-power"/></svg><span>Turn lights on</span></button><button class="button button-glass" data-page="effects">Explore effects <svg class="icon icon-small"><use href="#i-arrow-up-right"/></svg></button></div></div><div class="light-orb-wrap"><div class="light-orb" id="heroOrb"><div class="orb-inner"></div><span class="orb-ring orb-ring-one"></span><span class="orb-ring orb-ring-two"></span></div><div class="orb-caption"><span class="orb-caption-dot"></span><span id="heroColorLabel">COLOR PREVIEW</span></div></div></div>
+              <div class="hero-bottom"><div><span class="mini-label">ACTIVE COLOR</span><strong id="heroHex">#8B72FF</strong></div><div class="hero-bottom-divider"></div><div><span class="mini-label">BRIGHTNESS</span><strong id="heroBrightness">75%</strong></div><div class="hero-bottom-divider"></div><div><span class="mini-label">MODE</span><strong id="heroMode">Rainbow</strong></div></div>
+            </article>
+            <article class="control-card glass-panel">
+              <div class="card-heading"><div><span class="overline">QUICK CONTROL</span><h3>Brightness</h3></div><span class="round-icon"><svg class="icon"><use href="#i-sun"/></svg></span></div>
+              <div class="brightness-display"><strong id="brightnessValue">75<span>%</span></strong><span>OUTPUT LEVEL</span></div>
+              <input class="range range-brightness" id="brightnessSlider" type="range" min="0" max="100" value="75" aria-label="Brightness">
+              <div class="range-ends"><span>0%</span><span>100%</span></div>
+              <div class="speed-control"><div class="slider-heading"><label for="speedSlider">Animation speed</label><strong id="speedValue">55%</strong></div><input class="range" id="speedSlider" type="range" min="0" max="100" value="55" aria-label="Animation speed"><div class="range-ends"><span>Slow</span><span>Fast</span></div></div>
+              <div class="quick-divider"></div>
+              <div class="quick-row"><div><strong>Lights power</strong><small>Master on / off</small></div><button class="toggle-switch is-on" id="powerSwitch" role="switch" aria-checked="true" aria-label="Lights power"><span></span></button></div>
+            </article>
+          </div>
+          <div class="section-heading"><div><span class="overline">JUMP RIGHT IN</span><h2>Quick access</h2></div><button class="text-button" data-page="effects">All effects <svg class="icon icon-small"><use href="#i-chevron"/></svg></button></div>
+          <div class="quick-access-grid">
+            <button class="quick-access-card glass-panel" data-page="colors"><span class="quick-access-icon icon-color"><svg class="icon"><use href="#i-palette"/></svg></span><span><strong>Color studio</strong><small>Pick the exact shade</small></span><svg class="icon quick-arrow"><use href="#i-arrow-up-right"/></svg></button>
+            <button class="quick-access-card glass-panel" data-page="music"><span class="quick-access-icon icon-music"><svg class="icon"><use href="#i-music"/></svg></span><span><strong>Music reactive</strong><small>Let sound shape the lights</small></span><svg class="icon quick-arrow"><use href="#i-arrow-up-right"/></svg></button>
+            <button class="quick-access-card glass-panel" data-page="presets"><span class="quick-access-icon icon-presets"><svg class="icon"><use href="#i-bookmark"/></svg></span><span><strong>Your presets</strong><small>Return to a favorite vibe</small></span><svg class="icon quick-arrow"><use href="#i-arrow-up-right"/></svg></button>
+          </div>
+          <div class="section-heading section-heading-spaced"><div><span class="overline">CURATED FOR YOU</span><h2>Popular effects</h2></div><button class="text-button" data-page="effects">Browse library <svg class="icon icon-small"><use href="#i-chevron"/></svg></button></div>
+          <div class="effect-grid compact-effects" id="popularEffects"></div>
+        </section>
+
+        <!-- COLOR STUDIO -->
+        <section class="page" id="page-colors" data-title="Color studio">
+          <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> COLOR STUDIO</div><h1>Find your <span class="gradient-text">perfect shade.</span></h1><p class="page-subtitle">Dial in a color, fine-tune it, and send it straight to your lights.</p></div>
+          <div class="color-layout">
+            <article class="glass-panel color-picker-card">
+              <div class="card-heading"><div><span class="overline">LIVE COLOR PICKER</span><h3>Hue ring</h3></div><span class="live-edit-label"><span class="status-pulse"></span> LIVE PREVIEW</span></div>
+              <div class="picker-stage">
+                <div class="hue-wheel" id="hueWheel" role="slider" tabindex="0" aria-label="Hue color ring" aria-valuemin="0" aria-valuemax="360"><div class="wheel-center"><div class="wheel-swatch" id="wheelSwatch"></div><strong id="wheelHex">#8B72FF</strong><small>SELECTED COLOR</small></div><span class="wheel-thumb" id="wheelThumb"></span></div>
+              </div>
+              <div class="picker-sliders"><div class="slider-heading"><label for="saturationSlider">Saturation</label><strong id="saturationValue">78%</strong></div><input class="range range-saturation" id="saturationSlider" type="range" min="0" max="100" value="78"><div class="slider-heading slider-heading-gap"><label for="colorLightnessSlider">Color intensity</label><strong id="colorLightnessValue">100%</strong></div><input class="range range-lightness" id="colorLightnessSlider" type="range" min="15" max="100" value="100"></div>
+              <div class="color-input-row"><div class="hex-input-wrap"><span class="hash-mark">#</span><input id="hexInput" type="text" maxlength="6" value="8B72FF" aria-label="Hex color code" spellcheck="false"></div><button class="button button-secondary" id="randomColor"><svg class="icon icon-small"><use href="#i-refresh"/></svg> Surprise me</button><button class="button button-primary apply-color" id="applyColor">Apply color</button></div>
+            </article>
+            <div class="color-side-column">
+              <article class="glass-panel color-preview-card"><span class="overline">COLOR PREVIEW</span><div class="preview-swatch-large" id="largeColorSwatch"><div class="preview-swatch-shine"></div></div><div class="preview-color-meta"><div><strong id="previewHex">#8B72FF</strong><small>HEX VALUE</small></div><div><strong id="previewRgb">139, 114, 255</strong><small>RGB VALUE</small></div></div><button class="button button-primary full-width" id="saveColorPreset"><svg class="icon icon-small"><use href="#i-bookmark"/></svg> Save as preset</button></article>
+              <article class="glass-panel palette-card"><div class="card-heading"><div><span class="overline">COLOR PALETTE</span><h3>Quick picks</h3></div><button class="icon-button icon-button-small" id="shufflePalette" aria-label="Shuffle palette"><svg class="icon"><use href="#i-refresh"/></svg></button></div><div class="palette-swatches" id="paletteSwatches"></div></article>
+            </div>
+          </div>
+          <div class="glass-panel color-tip"><span class="tip-icon"><svg class="icon"><use href="#i-zap"/></svg></span><div><strong>Color tip</strong><p>The hue ring picks the color family. Saturation controls how vivid it feels, while color intensity keeps the shade from washing out.</p></div></div>
+        </section>
+
+        <!-- EFFECTS -->
+        <section class="page" id="page-effects" data-title="Effects library">
+          <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> EFFECTS LIBRARY</div><h1>Set the <span class="gradient-text">whole mood.</span></h1><p class="page-subtitle">From calm ambient glow to full-spectrum movement.</p></div>
+          <div class="library-toolbar"><div class="filter-tabs" id="effectFilters"><button class="filter-tab active" data-filter="all">All effects <span>20</span></button><button class="filter-tab" data-filter="ambient">Ambient</button><button class="filter-tab" data-filter="dynamic">Dynamic</button><button class="filter-tab" data-filter="color">Color</button><button class="filter-tab" data-filter="reactive">Reactive</button></div><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="effectSearch" type="search" placeholder="Find an effect..." aria-label="Search effects"></label></div>
+          <div class="effect-grid library-grid" id="allEffects"></div>
+          <div class="empty-state hidden" id="noEffects"><svg class="icon"><use href="#i-search"/></svg><strong>No effects found</strong><span>Try another search or category.</span></div>
+        </section>
+
+        <!-- MUSIC -->
+        <section class="page" id="page-music" data-title="Music reactive">
+          <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> AUDIO LAB</div><h1>Let sound <span class="gradient-text">move the room.</span></h1><p class="page-subtitle">Use your phone or laptop microphone to turn nearby sound into lighting data.</p></div>
+          <div class="music-layout">
+            <article class="glass-panel audio-card"><div class="audio-card-top"><span class="overline">LIVE AUDIO INPUT</span><span class="mic-status" id="micStatus"><span class="status-pulse"></span> MICROPHONE OFF</span></div><div class="audio-visualizer" id="audioVisualizer" aria-label="Audio level visualization"><div class="visualizer-glow"></div><div class="visualizer-bars" id="visualizerBars"></div><div class="visualizer-gridline line-one"></div><div class="visualizer-gridline line-two"></div></div><div class="audio-readouts"><div><span>INPUT LEVEL</span><strong id="inputLevel">0<span>%</span></strong></div><div><span>BASS</span><strong id="bassLevel">0%</strong></div><div><span>MIDS</span><strong id="midLevel">0%</strong></div><div><span>TREBLE</span><strong id="trebleLevel">0%</strong></div></div><div class="audio-actions"><button class="button button-primary" id="micButton"><svg class="icon icon-small"><use href="#i-mic"/></svg><span>Enable microphone</span></button><span class="permission-note">Your browser will ask for permission.</span></div></article>
+            <div class="music-side"><article class="glass-panel music-mode-card"><span class="overline">REACTIVE STYLE</span><h3>Choose your response</h3><div class="music-mode-list" id="musicModes"><button class="music-mode active" data-mode="spectrum"><span class="mode-icon mode-spectrum"><svg class="icon"><use href="#i-waves"/></svg></span><span><strong>Spectrum</strong><small>Frequency bands map to color</small></span><span class="mode-check"><svg class="icon"><use href="#i-check"/></svg></span></button><button class="music-mode" data-mode="pulse"><span class="mode-icon mode-pulse"><svg class="icon"><use href="#i-zap"/></svg></span><span><strong>Beat pulse</strong><small>Brightness follows the beat</small></span><span class="mode-check"><svg class="icon"><use href="#i-check"/></svg></span></button><button class="music-mode" data-mode="wave"><span class="mode-icon mode-wave"><svg class="icon"><use href="#i-waves"/></svg></span><span><strong>Sound wave</strong><small>Color intensity follows volume</small></span><span class="mode-check"><svg class="icon"><use href="#i-check"/></svg></span></button><button class="music-mode" data-mode="colorbeat"><span class="mode-icon mode-colorbeat"><svg class="icon"><use href="#i-palette"/></svg></span><span><strong>Color beat</strong><small>Shift shades on detected peaks</small></span><span class="mode-check"><svg class="icon"><use href="#i-check"/></svg></span></button></div></article><article class="glass-panel sensitivity-card"><div class="card-heading"><div><span class="overline">INPUT TUNING</span><h3>Microphone sensitivity</h3></div><strong id="sensitivityValue">65%</strong></div><input class="range" id="sensitivitySlider" type="range" min="10" max="100" value="65"><div class="range-ends"><span>Less sensitive</span><span>More sensitive</span></div><p class="helper-text">Adjust this if the lights react too much or not enough to the room.</p></article></div>
+          </div>
+          <div class="privacy-note glass-panel"><span class="privacy-icon"><svg class="icon"><use href="#i-mic"/></svg></span><div><strong>Audio stays on this device</strong><p>The browser analyzes microphone input locally. Only small lighting values are sent to the controller. Raw audio is not recorded or transmitted by this dashboard.</p></div></div>
+        </section>
+
+        <!-- PRESETS -->
+        <section class="page" id="page-presets" data-title="My presets">
+          <div class="page-heading heading-split"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR COLLECTION</div><h1>Your settings, <span class="gradient-text">saved your way.</span></h1><p class="page-subtitle">Keep favorite colors and lighting scenes close by.</p></div><button class="button button-primary" id="saveCurrentPreset"><svg class="icon icon-small"><use href="#i-plus"/></svg> Save current setup</button></div>
+          <div class="preset-grid" id="presetGrid"></div>
+          <div class="empty-state hidden" id="emptyPresets"><svg class="icon"><use href="#i-bookmark"/></svg><strong>No presets yet</strong><span>Save a color or scene and it will show up here.</span><button class="button button-secondary" data-page="colors">Open Color Studio</button></div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="page" id="page-settings" data-title="Device settings">
+          <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> DEVICE & CONNECTION</div><h1>Make it <span class="gradient-text">yours.</span></h1><p class="page-subtitle">Connect the dashboard to your controller and tune the experience.</p></div>
+          <div class="settings-layout">
+            <article class="glass-panel settings-card connection-settings"><div class="settings-card-heading"><span class="settings-icon"><svg class="icon"><use href="#i-wifi"/></svg></span><div><span class="overline">CONTROLLER CONNECTION</span><h3>Connect your TTGO</h3><p>RETROLIGHT uses a secure MQTT-over-WebSocket broker to connect the GitHub Pages dashboard to the ESP32.</p></div></div><div class="connection-state-box" id="connectionStateBox"><span class="state-indicator"></span><div><strong id="settingsConnectionState">Not connected</strong><small id="settingsConnectionDetail">Preview mode. Controls update locally on this device.</small></div><span class="state-tag" id="settingsStateTag">PREVIEW</span></div><form id="connectionForm" class="settings-form"><label class="field-label" for="brokerUrl">Secure broker URL <span>WSS</span></label><input class="text-input" id="brokerUrl" type="url" placeholder="wss://broker.example.com:8884/mqtt" autocomplete="url"><label class="field-label" for="mqttUsername">Username</label><input class="text-input" id="mqttUsername" type="text" placeholder="Broker username" autocomplete="username"><label class="field-label" for="mqttPassword">Password <small>Not saved in browser storage</small></label><input class="text-input" id="mqttPassword" type="password" placeholder="Broker password" autocomplete="current-password"><label class="field-label" for="mqttTopic">Device topic root</label><input class="text-input" id="mqttTopic" type="text" value="retrolight/room" placeholder="retrolight/room"><div class="form-actions"><button class="button button-primary" type="submit" id="connectButton"><svg class="icon icon-small"><use href="#i-wifi"/></svg> Connect</button><button class="button button-secondary" type="button" id="disconnectButton" disabled>Disconnect</button></div><p class="form-help" id="connectionHelp">Connection isn't configured yet. You'll need a broker that supports secure WebSocket connections (WSS) and matching ESP32 credentials.</p></form></article>
+            <div class="settings-side"><article class="glass-panel settings-card"><div class="settings-card-heading"><span class="settings-icon settings-icon-purple"><svg class="icon"><use href="#i-sun"/></svg></span><div><span class="overline">APPEARANCE</span><h3>Look & feel</h3><p>Choose how RETROLIGHT appears on this device.</p></div></div><div class="theme-options"><button class="theme-option active" data-theme-choice="dark"><span class="theme-preview theme-preview-dark"><i></i><i></i><i></i></span><strong>Dark glass</strong><span class="theme-option-check"><svg class="icon"><use href="#i-check"/></svg></span></button><button class="theme-option" data-theme-choice="light"><span class="theme-preview theme-preview-light"><i></i><i></i><i></i></span><strong>Light glass</strong><span class="theme-option-check"><svg class="icon"><use href="#i-check"/></svg></span></button></div></article><article class="glass-panel settings-card"><div class="settings-card-heading"><span class="settings-icon settings-icon-green"><svg class="icon"><use href="#i-monitor"/></svg></span><div><span class="overline">INTERFACE</span><h3>Responsive layout</h3><p>The dashboard adapts to your screen automatically.</p></div></div><div class="device-preview-row"><div class="device-preview-icon"><svg class="icon"><use href="#i-smartphone"/></svg></div><div><strong>Phone</strong><small>Compact controls and bottom navigation</small></div><span class="check-text"><svg class="icon"><use href="#i-check"/></svg> Ready</span></div><div class="device-preview-row"><div class="device-preview-icon"><svg class="icon"><use href="#i-monitor"/></svg></div><div><strong>Laptop / desktop</strong><small>Full sidebar and multi-column workspace</small></div><span class="check-text"><svg class="icon"><use href="#i-check"/></svg> Ready</span></div></article></div>
+          </div>
+          <article class="glass-panel protocol-card"><div class="protocol-head"><div><span class="overline">INTEGRATION NOTES</span><h3>How the controller talks</h3></div><span class="protocol-badge">MQTT + TLS</span></div><div class="protocol-grid"><div><small>COMMAND TOPIC</small><code id="commandTopicPreview">retrolight/room/command</code></div><div><small>STATE TOPIC</small><code id="stateTopicPreview">retrolight/room/state</code></div><div><small>TRANSPORT</small><code>MQTT over WSS</code></div></div><p class="helper-text">The ESP32 firmware must connect to the same broker, subscribe to the command topic, and publish device state. The matching firmware protocol will be added after the broker choice is settled.</p></article>
+        </section>
+      </div>
+      <footer class="main-footer"><span><span class="footer-mark"></span> RETROLIGHT 3.0</span><span>LOCAL-FIRST LIGHTING CONTROL <b>·</b> UI PREVIEW</span></footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-link active" data-page="overview"><svg class="icon"><use href="#i-grid"/></svg><span>Home</span></button>
+    <button class="mobile-nav-link" data-page="colors"><svg class="icon"><use href="#i-palette"/></svg><span>Colors</span></button>
+    <button class="mobile-nav-link" data-page="effects"><svg class="icon"><use href="#i-waves"/></svg><span>Effects</span></button>
+    <button class="mobile-nav-link" data-page="music"><svg class="icon"><use href="#i-music"/></svg><span>Audio</span></button>
+    <button class="mobile-nav-link" data-page="presets"><svg class="icon"><use href="#i-bookmark"/></svg><span>Presets</span></button>
+  </nav>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
