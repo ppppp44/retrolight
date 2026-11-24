@@ -1,0 +1,42 @@
+{
+  "id": "./",
+  "name": "RETROLIGHT 3.0",
+  "short_name": "RETROLIGHT",
+  "description": "Smart RGB lighting control dashboard.",
+  "lang": "en-US",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Color Studio",
+      "short_name": "Colors",
+      "url": "./#colors"
+    },
+    {
+      "name": "Effects Library",
+      "short_name": "Effects",
+      "url": "./#effects"
+    }
+  ]
+}
