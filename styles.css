@@ -351,3 +351,24 @@ body[data-theme="light"] .audio-visualizer { background: radial-gradient(ellipse
 }
 .speed-control { margin-top: 17px; }
 .speed-control .range { background: linear-gradient(90deg, #52c7e7, #9a7cff); }
+
+
+/* Animation Lab */
+.animation-builder { margin:0 0 22px; padding:22px; border-radius:var(--radius-xl); }
+.builder-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; }
+.builder-heading h2 { margin:6px 0 5px; font-size:20px; letter-spacing:-.03em; }
+.builder-heading p,.builder-footnote { margin:0; color:var(--muted); font-size:11px; line-height:1.6; }
+.builder-chip { padding:7px 10px; color:#b6aaff; border:1px solid rgba(151,135,255,.28); border-radius:999px; background:rgba(151,135,255,.09); font-size:9px; font-weight:800; letter-spacing:.12em; }
+.builder-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.builder-field { display:grid; gap:8px; min-width:0; color:var(--muted); font-size:10px; font-weight:700; }
+.builder-field span { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:5px; }
+.builder-field small { font-size:8px; font-weight:500; }
+.builder-field input:not([type=range]),.builder-field select { width:100%; min-width:0; height:40px; padding:0 11px; color:var(--text); border:1px solid var(--line); border-radius:10px; outline:none; background:var(--surface); font:inherit; font-size:11px; }
+.builder-field input:focus,.builder-field select:focus { border-color:var(--accent); }
+.builder-field input[type=range] { width:100%; accent-color:var(--accent); }
+.builder-field strong { color:var(--text); }
+.builder-actions { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 11px; }
+.builder-footnote { font-size:9px; }
+.button-ghost { color:var(--muted); border:1px solid var(--line); background:transparent; }
+@media(max-width:900px) { .builder-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:520px) { .animation-builder { padding:16px; }.builder-grid { grid-template-columns:1fr; }.builder-heading h2 { font-size:18px; }.builder-actions .button { flex:1; } }
