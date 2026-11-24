@@ -185,5 +185,23 @@
   </nav>
   <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
   <script src="app.js"></script>
+  <script>
+    // Mouse-wheel / trackpad support for the hue ring.
+    // Scrolling elsewhere on the page keeps normal browser scrolling.
+    (() => {
+      const wheel = document.getElementById('hueWheel');
+      if (!wheel) return;
+      wheel.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+        const delta = event.deltaY * unit;
+        const step = Math.max(-24, Math.min(24, delta * 0.045));
+        if (typeof state !== 'undefined' && typeof renderColor === 'function') {
+          state.hue = (state.hue + step + 360) % 360;
+          renderColor(true);
+        }
+      }, { passive: false });
+    })();
+  </script>
 </body>
 </html>
