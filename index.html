@@ -140,7 +140,19 @@
         <!-- EFFECTS -->
         <section class="page" id="page-effects" data-title="Effects library">
           <div class="page-heading"><div class="eyebrow"><span class="eyebrow-line"></span> EFFECTS LIBRARY</div><h1>Set the <span class="gradient-text">whole mood.</span></h1><p class="page-subtitle">From calm ambient glow to full-spectrum movement.</p></div>
-          <div class="library-toolbar"><div class="filter-tabs" id="effectFilters"><button class="filter-tab active" data-filter="all">All effects <span>20</span></button><button class="filter-tab" data-filter="ambient">Ambient</button><button class="filter-tab" data-filter="dynamic">Dynamic</button><button class="filter-tab" data-filter="color">Color</button><button class="filter-tab" data-filter="reactive">Reactive</button></div><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="effectSearch" type="search" placeholder="Find an effect..." aria-label="Search effects"></label></div>
+
+          <article class="glass-panel animation-builder">
+            <div class="builder-heading"><div><span class="overline">ANIMATION LAB</span><h2>Animate your own</h2><p>Build a color sequence, tune its movement, then preview or save it.</p></div><span class="builder-chip">CUSTOM</span></div>
+            <div class="builder-grid">
+              <label class="builder-field"><span>Animation name</span><input id="customAnimationName" maxlength="28" value="Neon daydream"></label>
+              <label class="builder-field"><span>Colors <small>2 to 8 hex colors</small></span><input id="customColors" value="#FF4D6D, #8B72FF, #40D9C7"></label>
+              <label class="builder-field"><span>Motion style</span><select id="customPattern"><option value="cycle">Color cycle</option><option value="chase">Chase sequence</option><option value="wave">Smooth color wave</option><option value="breathe">Breathing glow</option><option value="flicker">Fire flicker</option><option value="sparkle">Sparkle pops</option></select></label>
+              <label class="builder-field"><span>Speed <strong id="customSpeedValue">55%</strong></span><input id="customSpeed" type="range" min="1" max="100" value="55"></label>
+            </div>
+            <div class="builder-actions"><button class="button button-primary" id="customPreview"><svg class="icon icon-small"><use href="#i-play"/></svg> Preview animation</button><button class="button button-secondary" id="customSave"><svg class="icon icon-small"><use href="#i-bookmark"/></svg> Save animation</button><button class="button button-ghost" id="stopAnimation">Stop</button></div>
+            <p class="builder-footnote">Animations run in this browser while the dashboard stays open. Chase is a whole-strip color sequence on your current RGB wiring, not individual LED chasing.</p>
+          </article>
+          <div class="library-toolbar"><div class="filter-tabs" id="effectFilters"><button class="filter-tab active" data-filter="all">All effects <span>70</span></button><button class="filter-tab" data-filter="ambient">Ambient</button><button class="filter-tab" data-filter="dynamic">Dynamic</button><button class="filter-tab" data-filter="color">Color</button><button class="filter-tab" data-filter="reactive">Reactive</button></div><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="effectSearch" type="search" placeholder="Find an effect..." aria-label="Search effects"></label></div>
           <div class="effect-grid library-grid" id="allEffects"></div>
           <div class="empty-state hidden" id="noEffects"><svg class="icon"><use href="#i-search"/></svg><strong>No effects found</strong><span>Try another search or category.</span></div>
         </section>
