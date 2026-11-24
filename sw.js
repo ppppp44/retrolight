@@ -1,9 +1,9 @@
-const CACHE_NAME = "retrolight-shell-v1";
+const CACHE_NAME = "retrolight-shell-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js",\n  "./app.js?v=3.0.2",
+  "./app.js",
   "./manifest.json",
   "./favicon.svg"
 ];
