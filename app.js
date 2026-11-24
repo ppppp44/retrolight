@@ -43,6 +43,7 @@ const state = {
   presets: [], mqttClient: null, mqttConnected: false, deviceOnline: false,
   brokerTopic: DEFAULT_TOPIC_ROOT,
   audioStream: null, audioContext: null, analyser: null, audioFrame: null, audioSourceLabel: null,
+  animationTimer: null, activeAnimation: null,
   lastMusicPublish: 0, lastStatusMessage: null, audioAdaptive: null
 };
 
@@ -223,6 +224,7 @@ function setPower(on, send = true) {
 function setEffect(id, send = true) {
   const effect = EFFECTS.find(item => item.id === id);
   if (!effect) return;
+  stopWebAnimation();
   state.effect = id;
   $('#heroEffect').innerHTML = effect.name === 'Rainbow Flow' ? 'Rainbow<br>flow' : effect.name.replace(' ', '<br>');
   $('#heroEffectDescription').textContent = effect.description;
@@ -238,7 +240,8 @@ function setEffect(id, send = true) {
       const label = document.createElement('span'); label.className = 'effect-selected-label'; label.textContent = 'ACTIVE'; art.append(label);
     }
   });
-  if (send) sendCommand('effect', { id });
+  if (effect.webAnimation) startWebAnimation({ name:effect.name, colors:effect.colors, pattern:effect.pattern, speed:state.speed });
+  else if (send) sendCommand('effect', { id });
 }
 
 function effectCard(effect, compact = false) {
@@ -272,6 +275,7 @@ function renderEffects() {
   const container = $('#allEffects'); container.replaceChildren();
   results.forEach(effect => container.append(effectCard(effect)));
   $('#noEffects').classList.toggle('hidden', results.length > 0);
+  const count=$('#effectFilters [data-filter="all"] span'); if(count) count.textContent=String(EFFECTS.length);
 }
 
 function renderPaletteActive() {
@@ -290,7 +294,7 @@ function renderPalette(colors = DEFAULT_PALETTE) {
 function savePreset(name, preset = {}) {
   const presetName = (name || '').trim().slice(0, 28);
   if (!presetName) return false;
-  const data = { id: `${Date.now()}-${Math.random().toString(16).slice(2, 7)}`, name: presetName, color: preset.color || state.color, effect: preset.effect || state.effect, brightness: preset.brightness ?? state.brightness, createdAt: Date.now() };
+  const data = { id: `${Date.now()}-${Math.random().toString(16).slice(2, 7)}`, name: presetName, color: preset.color || state.color, effect: preset.effect || state.effect, brightness: preset.brightness ?? state.brightness, animation: preset.animation || state.activeAnimation || null, createdAt: Date.now() };
   state.presets.unshift(data); state.presets = state.presets.slice(0, 60);
   persistPresets(); renderPresets(); toast(`Preset “${presetName}” saved.`);
   return true;
@@ -313,7 +317,8 @@ function renderPresets() {
 function applyPreset(preset) {
   setColorFromHex(preset.color || '#8B72FF', true);
   setBrightness(preset.brightness ?? 75);
-  setEffect(preset.effect || 'solid');
+  if (preset.animation) { state.effect='custom'; startWebAnimation(preset.animation); $('#heroEffect').textContent=preset.animation.name || 'Custom animation'; $('#heroEffectDescription').textContent='Your saved custom color sequence.'; $('#heroMode').textContent='Custom'; }
+  else setEffect(preset.effect || 'solid');
   setPower(true);
   toast(`Loaded “${preset.name}”.`);
 }
@@ -324,6 +329,33 @@ function promptSavePreset() {
   if (!savePreset(name)) toast('Give your preset a name first.', 'error');
 }
 
+function blendHex(a,b,t) {
+  const A=hexToRgb(a), B=hexToRgb(b);
+  return rgbToHex({r:A.r+(B.r-A.r)*t,g:A.g+(B.g-A.g)*t,b:A.b+(B.b-A.b)*t});
+}
+function readCustomAnimation() {
+  const name=($('#customAnimationName').value || 'My animation').trim().slice(0,28);
+  const colors=$('#customColors').value.split(/[ ,;]+/).filter(Boolean).map(v=>(v.startsWith('#')?v:'#'+v).toUpperCase());
+  if(colors.length<2 || colors.length>8 || colors.some(v=>!hexToRgb(v))) { toast('Enter 2 to 8 valid six-digit hex colors.','error'); return null; }
+  return {name,colors,pattern:$('#customPattern').value,speed:Number($('#customSpeed').value)};
+}
+function stopWebAnimation() { if(state.animationTimer) clearInterval(state.animationTimer); state.animationTimer=null; state.activeAnimation=null; }
+function startWebAnimation(animation) {
+  stopWebAnimation();
+  const cfg={name:animation.name||'Custom animation',colors:animation.colors?.length?animation.colors:['#FF4D6D','#8B72FF'],pattern:animation.pattern||'cycle',speed:clamp(Number(animation.speed??state.speed),1,100)};
+  state.activeAnimation=cfg; let tick=0; const baseBrightness=state.brightness;
+  const frame=()=>{
+    const n=cfg.colors.length, factor=1.7-cfg.speed/100*1.45, phase=tick/(7*factor); let color;
+    if(cfg.pattern==='chase') color=cfg.colors[Math.floor(tick/Math.max(1,5*factor))%n];
+    else if(cfg.pattern==='sparkle') color=Math.random()>.72?cfg.colors[Math.floor(Math.random()*n)]:cfg.colors[0];
+    else if(cfg.pattern==='flicker') color=cfg.colors[Math.random()>.62?1:0];
+    else if(cfg.pattern==='breathe') { color=cfg.colors[0]; setBrightness(Math.round(baseBrightness*(.25+(Math.sin(phase*.7)+1)*.375))); }
+    else if(cfg.pattern==='wave') { const p=(Math.sin(phase*.65)+1)*.5*(n-1),i=Math.floor(p); color=blendHex(cfg.colors[i],cfg.colors[Math.min(i+1,n-1)],p-i); }
+    else { const p=(tick/(9*factor))%n,i=Math.floor(p); color=blendHex(cfg.colors[i],cfg.colors[(i+1)%n],p-i); }
+    setColorFromHex(color,true); tick++;
+  };
+  frame(); state.animationTimer=setInterval(frame,220);
+}
 function saveBrokerPreferences(url, username, topic) {
   try { localStorage.setItem(STORAGE_KEYS.broker, JSON.stringify({ url, username, topic })); } catch (_) { /* optional preference */ }
 }
@@ -707,6 +739,10 @@ function bindEvents() {
   $('#randomColor').addEventListener('click', () => { state.hue = Math.random() * 360; state.saturation = 60 + Math.random() * 40; state.intensity = 78 + Math.random() * 22; renderColor(false); });
   $('#saveColorPreset').addEventListener('click', () => savePreset(`${state.color} color`, { color: state.color, effect: 'solid', brightness: state.brightness }));
   $('#saveCurrentPreset').addEventListener('click', promptSavePreset);
+  $('#customSpeed').addEventListener('input', event => { $('#customSpeedValue').textContent=event.target.value+'%'; });
+  $('#customPreview').addEventListener('click', () => { const a=readCustomAnimation(); if(a){state.effect='custom';startWebAnimation(a);$('#heroEffect').textContent=a.name;$('#heroEffectDescription').textContent='Custom animation preview is running.';$('#heroMode').textContent='Custom';setPower(true);toast('Your animation is live.');} });
+  $('#customSave').addEventListener('click', () => { const a=readCustomAnimation(); if(a) savePreset(a.name,{color:a.colors[0],effect:'custom',animation:a,brightness:state.brightness}); });
+  $('#stopAnimation').addEventListener('click', () => { stopWebAnimation(); setEffect('solid'); sendCommand('color',{hex:state.color,...hexToRgb(state.color)}); toast('Animation stopped.'); });
   $('#shufflePalette').addEventListener('click', () => {
     const baseHue = Math.floor(Math.random() * 360);
     const palette = Array.from({ length: 8 }, (_, i) => rgbToHex(hsvToRgb((baseHue + i * 43 + Math.random() * 16) % 360, 55 + Math.random() * 40, 78 + Math.random() * 22)));
@@ -726,7 +762,7 @@ function bindEvents() {
   $('#disconnectButton').addEventListener('click', disconnectMqtt);
   $('#mqttTopic').addEventListener('input', updateTopicPreview);
   window.addEventListener('resize', () => updateWheelThumb());
-  window.addEventListener('beforeunload', () => { if (state.audioStream) stopAudioCapture(); });
+  window.addEventListener('beforeunload', () => { stopWebAnimation(); if (state.audioStream) stopAudioCapture(); });
 }
 
 function updateClock() {
