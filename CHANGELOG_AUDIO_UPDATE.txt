@@ -1,0 +1,13 @@
+RETROLIGHT 3.0 - ADAPTIVE AUDIO UPDATE
+
+- Added desktop Device Audio capture using the browser's screen-sharing audio option.
+- Kept microphone input as an alternative source.
+- Replaced fixed average-band scaling with adaptive bass/mid/treble normalization.
+- Increased analyzer FFT size and made response faster while retaining smooth release.
+- Increased default reactive intensity to 85%.
+- Updated the ESP32 music effect so Spectrum changes actual PWM brightness as well as RGB color.
+- Increased the dim-to-bright range for Spectrum, Beat Pulse, Sound Wave, and Color Beat.
+
+Desktop Device Audio in Chrome: click Device audio, select the entire screen, enable
+Share system audio, then click Share. Raw audio remains local to the browser; only
+calculated lighting levels are sent through MQTT.
