@@ -339,15 +339,34 @@ function readCustomAnimation() {
   if(colors.length<2 || colors.length>8 || colors.some(v=>!hexToRgb(v))) { toast('Enter 2 to 8 valid six-digit hex colors.','error'); return null; }
   return {name,colors,pattern:$('#customPattern').value,speed:Number($('#customSpeed').value)};
 }
-function stopWebAnimation() { if(state.animationTimer) clearInterval(state.animationTimer); state.animationTimer=null; state.activeAnimation=null; }
+function stopWebAnimation() { if(state.animationTimer) clearInterval(state.animationTimer); state.animationTimer=null; stopAnimationDeliveryRetry(); state.activeAnimation=null; }
+function stopAnimationDeliveryRetry() {
+  if (state.animationDeliveryTimer) clearInterval(state.animationDeliveryTimer);
+  state.animationDeliveryTimer = null;
+}
+function sendAnimationRecipeWithRetry(cfg) {
+  stopAnimationDeliveryRetry();
+  let attempts = 0;
+  const maxAttempts = 15;
+  const deliver = () => {
+    if (!state.mqttConnected) return;
+    const sent = sendCommand('animation', cfg);
+    if (sent) attempts++;
+    if (attempts >= maxAttempts) {
+      stopAnimationDeliveryRetry();
+      toast('The TTGO did not confirm this animation. Check that the new ESP32 sketch is uploaded and MQTT is connected.', 'error');
+    }
+  };
+  deliver();
+  state.animationDeliveryTimer = setInterval(deliver, 2000);
+}
 function startWebAnimation(animation) {
   stopWebAnimation();
   const cfg={name:animation.name||'Custom animation',colors:animation.colors?.length?animation.colors:['#FF4D6D','#8B72FF'],pattern:animation.pattern||'cycle',speed:clamp(Number(animation.speed??state.speed),1,100)};
   state.activeAnimation=cfg;
 
-  // Send the complete animation recipe once. The ESP32 runs it locally.
-  // The browser timer below is only for the dashboard's visual preview.
-  sendCommand('animation', cfg);
+  // Retry until the ESP32 publishes a state packet confirming this exact scene.
+  sendAnimationRecipeWithRetry(cfg);
 
   let tick=0;
   const frame=()=>{
@@ -534,6 +553,8 @@ function handleDeviceMessage(topicName, raw) {
   try {
     const message = JSON.parse(raw);
     state.lastStatusMessage = message;
+
+    if (message.effect === 'custom' && message.animationName && state.activeAnimation && message.animationName === state.activeAnimation.name.slice(0, 24)) stopAnimationDeliveryRetry();
 
     if (message.online === false) {
       state.deviceOnline = false;
