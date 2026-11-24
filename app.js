@@ -343,16 +343,24 @@ function stopWebAnimation() { if(state.animationTimer) clearInterval(state.anima
 function startWebAnimation(animation) {
   stopWebAnimation();
   const cfg={name:animation.name||'Custom animation',colors:animation.colors?.length?animation.colors:['#FF4D6D','#8B72FF'],pattern:animation.pattern||'cycle',speed:clamp(Number(animation.speed??state.speed),1,100)};
-  state.activeAnimation=cfg; sendCommand('effect',{id:'solid'}); let tick=0; const baseBrightness=state.brightness;
+  state.activeAnimation=cfg;
+
+  // Send the complete animation recipe once. The ESP32 runs it locally.
+  // The browser timer below is only for the dashboard's visual preview.
+  sendCommand('animation', cfg);
+
+  let tick=0;
   const frame=()=>{
-    const n=cfg.colors.length, factor=1.7-cfg.speed/100*1.45, phase=tick/(7*factor); let color;
+    const n=cfg.colors.length, factor=1.7-cfg.speed/100*1.45, phase=tick/(7*factor);
+    let color;
     if(cfg.pattern==='chase') color=cfg.colors[Math.floor(tick/Math.max(1,5*factor))%n];
     else if(cfg.pattern==='sparkle') color=Math.random()>.72?cfg.colors[Math.floor(Math.random()*n)]:cfg.colors[0];
     else if(cfg.pattern==='flicker') color=cfg.colors[Math.random()>.62?1:0];
-    else if(cfg.pattern==='breathe') { color=cfg.colors[0]; setBrightness(Math.round(baseBrightness*(.25+(Math.sin(phase*.7)+1)*.375))); }
+    else if(cfg.pattern==='breathe') color=cfg.colors[0];
     else if(cfg.pattern==='wave') { const p=(Math.sin(phase*.65)+1)*.5*(n-1),i=Math.floor(p); color=blendHex(cfg.colors[i],cfg.colors[Math.min(i+1,n-1)],p-i); }
     else { const p=(tick/(9*factor))%n,i=Math.floor(p); color=blendHex(cfg.colors[i],cfg.colors[(i+1)%n],p-i); }
-    setColorFromHex(color,true); tick++;
+    setColorFromHex(color,false);
+    tick++;
   };
   frame(); state.animationTimer=setInterval(frame,220);
 }
