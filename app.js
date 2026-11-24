@@ -343,7 +343,7 @@ function stopWebAnimation() { if(state.animationTimer) clearInterval(state.anima
 function startWebAnimation(animation) {
   stopWebAnimation();
   const cfg={name:animation.name||'Custom animation',colors:animation.colors?.length?animation.colors:['#FF4D6D','#8B72FF'],pattern:animation.pattern||'cycle',speed:clamp(Number(animation.speed??state.speed),1,100)};
-  state.activeAnimation=cfg; let tick=0; const baseBrightness=state.brightness;
+  state.activeAnimation=cfg; sendCommand('effect',{id:'solid'}); let tick=0; const baseBrightness=state.brightness;
   const frame=()=>{
     const n=cfg.colors.length, factor=1.7-cfg.speed/100*1.45, phase=tick/(7*factor); let color;
     if(cfg.pattern==='chase') color=cfg.colors[Math.floor(tick/Math.max(1,5*factor))%n];
